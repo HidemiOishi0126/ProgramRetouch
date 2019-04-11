@@ -68,6 +68,7 @@ public class BuyDetailDAO {
 				bddb.setId(rs.getInt("id"));
 				bddb.setBuyId(rs.getInt("buy_id"));
 				bddb.setItemId(rs.getInt("item_id"));
+
 				buyDetailList.add(bddb);
 			}
 
