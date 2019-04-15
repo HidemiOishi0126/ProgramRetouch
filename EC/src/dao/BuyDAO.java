@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import base.DBManager;
 import beans.BuyDataBeans;
@@ -16,7 +17,6 @@ import beans.BuyDataBeans;
  *
  */
 public class BuyDAO {
-
 
 	/**
 	 * 購入情報登録処理
@@ -102,4 +102,44 @@ public class BuyDAO {
 		}
 	}
 
+	public static ArrayList<BuyDataBeans> getBuyDataByUserId(int userId) throws SQLException {
+
+		Connection con = null;
+		PreparedStatement st = null;
+		ArrayList<BuyDataBeans> buyDataList = new ArrayList<BuyDataBeans>();
+		try {
+			con = DBManager.getConnection();
+
+			st = con.prepareStatement(
+					"SELECT * FROM t_buy"
+							+ " JOIN m_delivery_method"
+							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
+							+ " WHERE t_buy.user_id = ?"
+							+ " ORDER BY t_buy.id DESC;");
+			st.setInt(1, userId);
+
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				BuyDataBeans buyData = new BuyDataBeans();
+				buyData.setId(rs.getInt("id"));
+				buyData.setBuyDate(rs.getTimestamp("create_date"));
+				buyData.setDeliveryMethodName(rs.getString("name"));
+				buyData.setUserId(userId);
+				buyData.setTotalPrice(rs.getInt("total_price"));
+				buyData.setDeliveryMethodPrice(rs.getInt("price"));
+
+				buyDataList.add(buyData);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SQLException(e);
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+		}
+		return buyDataList;
+	}
 }

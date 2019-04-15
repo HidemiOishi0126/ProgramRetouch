@@ -70,6 +70,10 @@ public class BuyDataBeans  implements Serializable {
 	public void setDeliveryMethodPrice(int deliveryMethodPrice) {
 		this.deliveryMethodPrice = deliveryMethodPrice;
 	}
+	public void setBuyDate(SimpleDateFormat buyDateTime) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 
 
 }

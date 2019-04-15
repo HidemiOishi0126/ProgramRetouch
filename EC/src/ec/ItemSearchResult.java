@@ -37,7 +37,7 @@ public class ItemSearchResult extends HttpServlet {
 			session.setAttribute("searchWord", searchWord);
 
 			// 商品リストを取得 ページ表示分のみ
-			ArrayList<ItemDataBeans> searchResultItemList = ItemDAO.getItemsByItemName(searchWord, pageNum, PAGE_MAX_ITEM_COUNT);
+			ArrayList<ItemDataBeans> itemList = ItemDAO.getItemsByItemName(searchWord, pageNum, PAGE_MAX_ITEM_COUNT);
 
 			// 検索ワードに対しての総ページ数を取得
 			double itemCount = ItemDAO.getItemCount(searchWord);
@@ -49,7 +49,7 @@ public class ItemSearchResult extends HttpServlet {
 			request.setAttribute("pageMax", pageMax);
 			// 表示ページ
 			request.setAttribute("pageNum", pageNum);
-			request.setAttribute("itemList", searchResultItemList);
+			request.setAttribute("itemList", itemList);
 
 			request.getRequestDispatcher(EcHelper.SEARCH_RESULT_PAGE).forward(request, response);
 		} catch (Exception e) {
